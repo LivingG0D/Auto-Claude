@@ -1,3 +1,74 @@
+## 2.8.0 - Windows Stability & Cross-Platform Improvements
+
+### ✨ New Features
+
+- **PR Review Verdict Summary**: Added prominent verdict summary to PR review comments for clearer feedback (#780)
+
+- **Anonymous Error Reporting**: Added optional Sentry error reporting with privacy controls - disabled by default (#636)
+
+### 🛠️ Improvements
+
+- Improved task description handling and modal layout (#750)
+
+- Updated Linux app icon to use multiple resolution sizes and fixed .deb icon (#672)
+
+- Added stars badge and star history chart to README (#675)
+
+### 🐛 Bug Fixes
+
+#### Windows
+- Fixed Windows task completion issues - tasks can now finish properly (#739)
+- Added pywin32 dependency for LadybugDB compatibility (#778)
+- Fixed Git Bash path detection on Windows (#724)
+- Fixed MCP shell mode for Windows command spawning (#572)
+
+#### macOS
+- Fixed Claude CLI validation with augmented environment (#640)
+- Use Homebrew for Ollama installation on macOS (#742)
+- Detect Claude CLI installed via NVM on Linux/macOS (#623)
+
+#### Multi-Project & Worktrees
+- Grant worktree access to original project directories (#776)
+- Filter task IPC events by project to prevent cross-project interference (#775)
+- Fixed security allowlist not working in worktree mode (#646)
+
+#### Accessibility
+- Added context menu for keyboard-accessible task status changes (#710)
+- Added missing ARIA attributes for screen reader accessibility (#634)
+
+#### Python & Setup
+- Verify critical packages exist during Python bundling, not just marker file (#774)
+- Added helpful error message when Python dependencies are missing (#755)
+- Auto-create .env from .env.example during backend install (#713)
+- Sanitize environment to prevent PYTHONHOME contamination (#664)
+
+#### Authentication & Profiles
+- Support localhost proxy connection testing in profiles
+- Support API profiles in auth check and model resolution (#608)
+- Show OAuth terminal during profile authentication (#671)
+- Check .claude.json for OAuth auth in profile scorer (#652)
+
+#### UI & Frontend
+- Ensure PATH includes system directories when launched (#748)
+- Prevent app freeze by making Claude CLI detection non-blocking (#720)
+- Fixed window size on Hi-DPI displays (#696)
+- Updated TaskCard description truncation for improved display (#637)
+- Fixed InvestigationDialog overflow issue (#669)
+
+#### Other
+- Fixed async sendMessage race condition in Insights (#773)
+- Handle Ollama version errors during model pull (#760)
+- Normalize feature status values for Kanban/Roadmap display (#763)
+- Use --continue instead of --resume for Claude session restoration (#699)
+- Centralize Claude CLI invocation (#680)
+- Pass OAuth token to Python runner subprocesses (#698)
+- Change hardcoded Opus defaults to Sonnet (#633)
+- Include update manifests for architecture-specific auto-updates (#611)
+- Fix security hook cwd extraction and PATH issues (#587)
+- Filter empty env vars to prevent OAuth token override (#520)
+
+---
+
 ## 2.7.2 - Stability & Performance Enhancements
 
 ### ✨ New Features
