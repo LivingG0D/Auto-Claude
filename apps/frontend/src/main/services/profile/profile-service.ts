@@ -381,6 +381,43 @@ export async function testConnection(
     };
   }
 
+  // Skip full API test for localhost/127.0.0.1 URLs (local proxies like Antigravity)
+  // These proxies may not implement the /v1/models endpoint
+  try {
+    const urlObj = new URL(normalizedUrl);
+    const hostname = urlObj.hostname.toLowerCase();
+    if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1') {
+      // For local proxies, just verify basic HTTP connectivity
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
+      try {
+        await fetch(normalizedUrl, {
+          method: 'GET',
+          signal: signal ?? controller.signal,
+          headers: { 'x-api-key': apiKey }
+        });
+        clearTimeout(timeoutId);
+        
+        // Any HTTP response (even 404 or 500) means the server is running
+        return {
+          success: true,
+          message: `Local proxy detected at ${urlObj.host}. Connection verified.`
+        };
+      } catch {
+        clearTimeout(timeoutId);
+        // Connection refused or network error
+        return {
+          success: false,
+          errorType: 'network',
+          message: `Cannot connect to local proxy at ${urlObj.host}. Is the server running?`
+        };
+      }
+    }
+  } catch {
+    // URL parsing failed - continue with normal validation
+  }
+
   // Check if signal already aborted
   if (signal?.aborted) {
     return {
